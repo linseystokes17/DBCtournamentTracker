@@ -1,0 +1,128 @@
+import json
+# initial printing
+print('============================')
+print('Welcome to Tournaments R Us')
+print('============================')
+
+# variables
+nParticipants = int(input('Enter the number of participants: '))
+participants = ['[empty]' for a in range(0, nParticipants)]
+slots = [a for a in range(1, nParticipants+1)]
+exit = False
+
+# functions
+def addParticipant(name, slot):
+    if participants[slot-1]=='[empty]':
+        participants[slot-1]=name
+        return True
+    return False
+
+def removeParticipant(name, slot):
+    if participants[slot-1] == name:
+        participants[slot-1] = '[empty]'
+        return True
+    return False
+
+def viewParticipants(*args):
+    if len(args) == 1:
+        slot = int(args[0])
+        for i in range(slot-5, slot+5):
+            print(f"{slots[i]}: {participants[i]}")
+    else:
+        for i in range(0, nParticipants):
+            print(f"{slots[i]}: {participants[i]}")
+
+def searchParticipant(name):
+    for i in range(0, nParticipants):
+        if participants[i]==name:
+            return slots[i]
+    return 0
+    
+def addParticipantMenu():
+    participant = input('Participant Name: ')
+    slot = int(input(f'Starting slot #[1:{nParticipants}]: '))
+    message = addParticipant(participant, slot)
+    if not message:
+        print(f'Slot #{slot}  is filled. Please try again.')
+    else:
+        print(f'Success:\n{participant} is signed up in starting slot #{slot}.')
+
+def removeParticipantMenu():
+    participant = input('Participant Name: ')
+    slot = int(input(f'Starting slot #[1:{nParticipants}]: '))
+    message = removeParticipant(participant, slot)
+    if not message:
+        print(f'Error:\n{participant} is not in that starting slot.')
+    else:
+        print(f'Success:\n{participant} has been cancelled from starting slot #{slot}.')
+
+def viewParticipantMenu():
+    slot = input(f'Starting slot #[1:{nParticipants}]: ')
+    if slot!='':
+        viewParticipants(slot)
+    else:
+        viewParticipants()
+
+def searchParticipantMenu():
+    name = input('Who do you want to search: ')
+    slot = searchParticipant(name)
+    if slot == 0:
+        print(f'{name} does not exist')
+    else:
+        print(f'{name} is in slot #{slot}')
+
+def exportParticipants():
+    dict = {}
+    for i in range(0, nParticipants):
+        dict[slots[i]] = participants[i]
+    try:
+        with open("participants_list.json", "w") as outfile: 
+            json.dump(dict, outfile, indent = 4)
+        print('Export Successful')
+    except:
+        print('Export Unsuccessful')
+
+def importParticipants(file):
+    global slots, participants
+    try:
+        with open(file) as f:
+            dict = json.load(f)
+            slots = list(dict.keys())
+            participants = list(dict.values())
+        return True
+    except:
+        return False
+
+def importParticipantsMenu():
+    file = input('What file do you want to use (full path): ')
+    if importParticipants(file):
+        print('Import Successful')
+    else:
+        print('Import unsuccessful')
+
+
+# printing
+while not exit:
+    print('\n============================')
+    print('Participant Menu')
+    print('============================')
+    print('1. Sign Up\n2. Cancel Sign Up\n3. View Participants\n4. Search for Participant\n5. Export Participants\n6. Import Participants\n7. Exit\n')
+    menuChoice = int(input())
+    if menuChoice == 1:
+        addParticipantMenu()
+    if menuChoice== 2:
+        removeParticipantMenu()
+    if menuChoice == 3:
+        viewParticipantMenu()
+    if menuChoice == 4:
+        searchParticipantMenu()
+    if menuChoice == 5:
+        exportParticipants()
+    if menuChoice == 6:
+        importParticipantsMenu()
+    if menuChoice == 7:
+        print('Are you sure you want to exit?\nAll data will be lost.')
+        exitChoice = input('Exit? [y/n] ')
+        if exitChoice == 'y':
+            print('Goodbye!')
+            exit = True
