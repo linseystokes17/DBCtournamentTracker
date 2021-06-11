@@ -11,18 +11,21 @@ slots = [a for a in range(1, nParticipants+1)]
 exit = False
 
 # functions
+# assigns participant to slot
 def addParticipant(name, slot):
     if participants[slot-1]=='[empty]':
         participants[slot-1]=name
         return True
     return False
 
+# remove participant from slot
 def removeParticipant(name, slot):
     if participants[slot-1] == name:
         participants[slot-1] = '[empty]'
         return True
     return False
 
+# view list of participants (all or 10 around slot #)
 def viewParticipants(*args):
     if len(args) == 1:
         slot = int(args[0])
@@ -32,12 +35,14 @@ def viewParticipants(*args):
         for i in range(0, nParticipants):
             print(f"{slots[i]}: {participants[i]}")
 
+# search for participant by name
 def searchParticipant(name):
     for i in range(0, nParticipants):
         if participants[i]==name:
             return slots[i]
     return 0
-    
+
+# print menu and gather inputs to add person
 def addParticipantMenu():
     participant = input('Participant Name: ')
     slot = int(input(f'Starting slot #[1:{nParticipants}]: '))
@@ -47,6 +52,7 @@ def addParticipantMenu():
     else:
         print(f'Success:\n{participant} is signed up in starting slot #{slot}.')
 
+# print menu and gather inputs to remove person
 def removeParticipantMenu():
     participant = input('Participant Name: ')
     slot = int(input(f'Starting slot #[1:{nParticipants}]: '))
@@ -56,6 +62,7 @@ def removeParticipantMenu():
     else:
         print(f'Success:\n{participant} has been cancelled from starting slot #{slot}.')
 
+# print menu and gather inputs to view participants
 def viewParticipantMenu():
     slot = input(f'Starting slot #[1:{nParticipants}]: ')
     if slot!='':
@@ -63,6 +70,7 @@ def viewParticipantMenu():
     else:
         viewParticipants()
 
+# print menu and gather inputs to search participants
 def searchParticipantMenu():
     name = input('Who do you want to search: ')
     slot = searchParticipant(name)
@@ -71,6 +79,7 @@ def searchParticipantMenu():
     else:
         print(f'{name} is in slot #{slot}')
 
+# functionality to export list of participants
 def exportParticipants():
     dict = {}
     for i in range(0, nParticipants):
@@ -82,6 +91,7 @@ def exportParticipants():
     except:
         print('Export Unsuccessful')
 
+# functionality to import list of participants
 def importParticipants(file):
     global slots, participants
     try:
@@ -93,6 +103,7 @@ def importParticipants(file):
     except:
         return False
 
+# menu to get file name for import
 def importParticipantsMenu():
     file = input('What file do you want to use (full path): ')
     if importParticipants(file):
@@ -100,8 +111,7 @@ def importParticipantsMenu():
     else:
         print('Import unsuccessful')
 
-
-# printing
+# general printing & menu commands
 while not exit:
     print('\n============================')
     print('Participant Menu')
