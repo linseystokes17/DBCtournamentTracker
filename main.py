@@ -6,7 +6,7 @@ print('============================')
 
 # variables
 nParticipants = int(input('Enter the number of participants: '))
-participants = ['[empty]' for a in range(0, nParticipants)]
+participants = [None for a in range(0, nParticipants)]
 slots = [a for a in range(1, nParticipants+1)]
 exit = False
 
@@ -15,7 +15,7 @@ print(f'There are {nParticipants} participant slots ready for sign-ups.')
 # functions
 # assigns participant to slot
 def addParticipant(name, slot):
-    if participants[slot-1]=='[empty]':
+    if participants[slot-1]==None:
         participants[slot-1]=name
         return True
     return False
@@ -23,7 +23,7 @@ def addParticipant(name, slot):
 # remove participant from slot
 def removeParticipant(name, slot):
     if participants[slot-1] == name:
-        participants[slot-1] = '[empty]'
+        participants[slot-1] = None
         return True
     return False
 
