@@ -10,6 +10,8 @@ participants = ['[empty]' for a in range(0, nParticipants)]
 slots = [a for a in range(1, nParticipants+1)]
 exit = False
 
+print(f'There are {nParticipants} participant slots ready for sign-ups.')
+
 # functions
 # assigns participant to slot
 def addParticipant(name, slot):
@@ -109,7 +111,7 @@ def importParticipantsMenu():
     if importParticipants(file):
         print('Import Successful')
     else:
-        print('Import unsuccessful')
+        print('Import Unsuccessful')
 
 # general printing & menu commands
 while not exit:
@@ -117,22 +119,26 @@ while not exit:
     print('Participant Menu')
     print('============================')
     print('1. Sign Up\n2. Cancel Sign Up\n3. View Participants\n4. Search for Participant\n5. Export Participants\n6. Import Participants\n7. Exit\n')
-    menuChoice = int(input())
-    if menuChoice == 1:
-        addParticipantMenu()
-    if menuChoice== 2:
-        removeParticipantMenu()
-    if menuChoice == 3:
-        viewParticipantMenu()
-    if menuChoice == 4:
-        searchParticipantMenu()
-    if menuChoice == 5:
-        exportParticipants()
-    if menuChoice == 6:
-        importParticipantsMenu()
-    if menuChoice == 7:
-        print('Are you sure you want to exit?\nAll data will be lost.')
-        exitChoice = input('Exit? [y/n] ')
-        if exitChoice == 'y':
-            print('Goodbye!')
-            exit = True
+    try:
+        menuChoice = int(input())
+        if menuChoice == 1:
+            addParticipantMenu()
+        if menuChoice== 2:
+            removeParticipantMenu()
+        if menuChoice == 3:
+            viewParticipantMenu()
+        if menuChoice == 4:
+            searchParticipantMenu()
+        if menuChoice == 5:
+            exportParticipants()
+        if menuChoice == 6:
+            importParticipantsMenu()
+        if menuChoice == 7:
+            print('Are you sure you want to exit?\nAll data will be lost.')
+            exitChoice = input('Exit? [y/n] ')
+            if exitChoice == 'y':
+                print('Goodbye!')
+                exit = True
+    except:
+        print('That is not a valid menu option')
+    
